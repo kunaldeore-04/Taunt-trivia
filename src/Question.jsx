@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// Import or define your Scorecard component
+import questionsData from './questions.json';
 import Scorecard from './Scorecard'; // Adjust the import path as needed
 
 // Enhanced animation variants (keeping your existing ones)
@@ -118,7 +117,7 @@ const confettiVariant = {
   }
 };
 
-const Question = ({ isDark = false, questionsFile = '/questions.json' }) => {
+const Question = ({ isDark = false}) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -130,15 +129,11 @@ const Question = ({ isDark = false, questionsFile = '/questions.json' }) => {
   const [userAnswers, setUserAnswers] = useState([]); // Track user answers for scoring
 
   // Load questions from JSON file
-  useEffect(() => {
-    const loadQuestions = async () => {
+useEffect(() => {
+    const loadQuestions = () => {
       try {
         setLoading(true);
-        const response = await fetch('/questions.json'); 
-        if (!response.ok) {
-          throw new Error(`Failed to load questions: ${response.statusText}`);
-        }
-        const data = await response.json();
+        const data = questionsData; // Use imported data directly
         
         // Validate and process questions
         const processedQuestions = data.map((q, index) => {
